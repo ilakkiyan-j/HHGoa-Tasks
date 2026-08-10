@@ -1,21 +1,29 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Outfit, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-});
 
 const outfit = Outfit({
   subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
   variable: '--font-display',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
   title: 'HH Goa 2026 — Frame In Goa | Builder Frame & ID Card Generator',
   description:
-    'Turn your photo into your official HH Goa 2026 builder identity. Generate custom profile picture frames and event-style builder ID cards. No login required.',
+    'Turn your photo into your official HH Goa 2026 builder identity. Generate custom profile picture frames and event-style builder ID cards.',
   keywords: [
     'HH Goa 2026',
     'Frame In Goa',
@@ -28,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'HH Goa 2026 — Frame In Goa',
     description: 'Frame your build. Take it to Goa. Create your HH Goa 2026 builder identity.',
-    url: 'https://hh-goa-2026.vercel.app',
+    url: 'https://hh-goa-tasks.vercel.app',
     siteName: 'HH Goa 2026',
     locale: 'en_US',
     type: 'website',
@@ -46,8 +54,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} dark`}>
-      <body className="min-h-screen bg-[#07090E] bg-cyber-grid text-slate-100 flex flex-col antialiased selection:bg-cyan-500 selection:text-slate-950">
+    <html lang="en" className={`${outfit.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
+      <body className="min-h-screen bg-[#f8fafc] bg-cyber-grid text-slate-900 flex flex-col antialiased selection:bg-cyan-500 selection:text-white font-sans">
         {children}
       </body>
     </html>

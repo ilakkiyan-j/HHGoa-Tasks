@@ -66,11 +66,11 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
   };
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
-      {/* Background Decorative Grids & Glows */}
+    <section className="relative overflow-hidden pt-6 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+      {/* Background Decorative Ambient Orbs */}
       <div className="absolute inset-0 -z-10 flex items-center justify-center">
-        <div className="w-[600px] h-[600px] bg-gradient-to-tr from-cyan-500/20 via-teal-500/10 to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" />
-        <div className="w-[400px] h-[400px] bg-gradient-to-bl from-emerald-500/15 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+        <div className="w-[600px] h-[600px] bg-gradient-to-tr from-cyan-400/25 via-teal-300/20 to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" />
+        <div className="w-[400px] h-[400px] bg-gradient-to-bl from-emerald-400/20 via-sky-300/15 to-transparent rounded-full blur-3xl pointer-events-none" />
       </div>
 
       {/* Top Event Badge */}
@@ -78,12 +78,12 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 text-cyan-300 text-xs font-mono mb-6 shadow-lg shadow-cyan-900/20 backdrop-blur-md"
+        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-cyan-300/70 text-cyan-900 text-xs font-mono mb-6 shadow-md shadow-cyan-500/10 backdrop-blur-md"
       >
-        <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
-        <span className="font-semibold tracking-wider">HH GOA 2026 OFFICIAL TOOL</span>
-        <span className="text-cyan-500/60">|</span>
-        <span className="text-emerald-400 font-bold">#FrameInGoa</span>
+        <Sparkles className="w-3.5 h-3.5 text-cyan-600 animate-spin-slow" />
+        <span className="font-bold tracking-wider">HH GOA 2026 OFFICIAL TOOL</span>
+        <span className="text-cyan-400">|</span>
+        <span className="text-emerald-700 font-extrabold">#FrameInGoa</span>
       </motion.div>
 
       {/* Main Headline */}
@@ -91,10 +91,10 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.1] max-w-4xl"
+        className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1] max-w-4xl font-display"
       >
         FRAME YOUR BUILD.{' '}
-        <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent block mt-1">
+        <span className="bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent block mt-1">
           TAKE IT TO GOA.
         </span>
       </motion.h1>
@@ -104,9 +104,9 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl font-sans font-normal leading-relaxed"
+        className="mt-6 text-base sm:text-xl text-slate-700 max-w-2xl font-sans font-medium leading-relaxed"
       >
-        Turn your photo into your HH Goa 2026 builder identity in seconds.
+        Turn your photo into your official HH Goa 2026 builder identity in seconds.
         Generate branded profile frames and event-style builder ID cards.
       </motion.p>
 
@@ -115,18 +115,18 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.25 }}
-        className="mt-3 flex items-center justify-center gap-2 text-xs font-mono text-slate-400"
+        className="mt-3 flex items-center justify-center gap-2 text-xs sm:text-sm font-mono text-slate-600 font-semibold"
       >
-        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-        <span>No login. No signup. Just build.</span>
+        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+        <span>No login. No signup. 100% Client-side.</span>
       </motion.div>
 
-      {/* Upload Zone Card */}
+      {/* Upload Zone Card (Light Glassmorphism) */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-10 w-full max-w-xl"
+        className="mt-8 sm:mt-10 w-full max-w-xl"
       >
         <input
           ref={fileInputRef}
@@ -143,49 +143,48 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
           onDragLeave={onDragLeave}
           onDrop={onDrop}
           onClick={handleBrowseClick}
-          className={`relative cursor-pointer group p-8 sm:p-10 rounded-3xl border-2 border-dashed transition-all duration-300 backdrop-blur-2xl ${
+          className={`relative cursor-pointer group p-6 sm:p-10 rounded-3xl border-2 border-dashed transition-all duration-300 backdrop-blur-xl ${
             isDragging
-              ? 'border-cyan-400 bg-cyan-950/40 shadow-2xl shadow-cyan-500/30 scale-[1.02]'
-              : 'border-slate-700/80 bg-slate-900/60 hover:border-cyan-400/70 hover:bg-slate-900/90 shadow-xl'
+              ? 'border-cyan-500 bg-cyan-50/90 shadow-2xl shadow-cyan-500/20 scale-[1.02]'
+              : 'border-cyan-300/80 bg-white/90 hover:border-cyan-500 hover:bg-cyan-50/40 shadow-xl shadow-slate-200/60'
           }`}
         >
-          {/* Subtle Glow inside dropzone */}
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-cyan-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+          {/* Ambient inner glow */}
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-cyan-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-6 space-y-4">
-              <div className="w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-              <p className="text-cyan-300 font-mono text-sm font-semibold animate-pulse">
+              <div className="w-12 h-12 border-4 border-cyan-600 border-t-transparent rounded-full animate-spin" />
+              <p className="text-cyan-800 font-mono text-sm font-bold animate-pulse">
                 Processing your photo...
               </p>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center space-y-4">
               {/* Icon Container */}
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-emerald-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/20 transition-all duration-300">
+              <div className="w-16 h-16 rounded-2xl bg-cyan-100 border border-cyan-300 flex items-center justify-center text-cyan-700 group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
                 <Upload className="w-8 h-8" />
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition">
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-cyan-700 transition font-display">
                   Drop your photo here
                 </h3>
-                <p className="text-sm text-slate-400 mt-1">
-                  or <span className="text-cyan-400 font-semibold underline underline-offset-4">choose from your device</span>
+                <p className="text-sm text-slate-600 mt-1 font-medium">
+                  or <span className="text-cyan-700 font-bold underline underline-offset-4">choose from your device</span>
                 </p>
               </div>
 
               {/* Supported Formats */}
               <div className="pt-2 flex items-center justify-center gap-2">
-                <span className="text-[11px] font-mono px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300">
-                  JPG
-                </span>
-                <span className="text-[11px] font-mono px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300">
-                  PNG
-                </span>
-                <span className="text-[11px] font-mono px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300">
-                  HEIC
-                </span>
+                {['JPG', 'PNG', 'HEIC', 'WEBP'].map((fmt) => (
+                  <span
+                    key={fmt}
+                    className="text-[11px] font-mono font-bold px-3 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-700"
+                  >
+                    {fmt}
+                  </span>
+                ))}
               </div>
             </div>
           )}
@@ -193,17 +192,17 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
 
         {/* Error message toast */}
         {errorMessage && (
-          <div className="mt-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-mono flex items-center justify-center gap-2">
-            <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+          <div className="mt-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-mono font-semibold flex items-center justify-center gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
             <span>{errorMessage}</span>
           </div>
         )}
 
-        {/* Action Buttons: Primary & Try Demo */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* Action Buttons */}
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <button
             onClick={handleBrowseClick}
-            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 text-slate-950 font-extrabold text-base tracking-wide hover:shadow-xl hover:shadow-cyan-400/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
+            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 text-white font-extrabold text-base tracking-wide shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
           >
             <span>Create My Frame</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
@@ -211,10 +210,10 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
 
           <button
             onClick={onTryDemo}
-            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-slate-900/90 border border-slate-700 text-slate-200 font-bold text-base hover:bg-slate-800 hover:border-cyan-400/50 hover:text-white transition flex items-center justify-center gap-2 group shadow-lg"
+            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white border border-slate-300 text-slate-800 font-bold text-base hover:bg-slate-50 hover:border-cyan-400 transition flex items-center justify-center gap-2 group shadow-sm"
           >
-            <Play className="w-4 h-4 text-cyan-400 fill-cyan-400 group-hover:scale-110 transition" />
-            <span>Try Demo</span>
+            <Play className="w-4 h-4 text-cyan-600 fill-cyan-600 group-hover:scale-110 transition" />
+            <span>Try Demo Photo</span>
           </button>
         </div>
       </motion.div>
@@ -224,35 +223,35 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ onImageSelected, onTry
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.5 }}
-        className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl text-left"
+        className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl text-left"
       >
-        <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm flex items-start gap-3">
-          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 mt-0.5">
+        <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-sm backdrop-blur-sm flex items-start gap-3">
+          <div className="p-2 rounded-xl bg-cyan-100 text-cyan-700 mt-0.5">
             <Zap className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white uppercase font-mono">100% Client-side</h4>
-            <p className="text-xs text-slate-400 mt-0.5">Instant 1-second generation right inside your browser.</p>
+            <h4 className="text-xs font-bold text-slate-900 uppercase font-mono">100% Local Privacy</h4>
+            <p className="text-xs text-slate-600 mt-0.5 font-medium">Instant generation right inside your browser.</p>
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm flex items-start gap-3">
-          <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 mt-0.5">
+        <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-sm backdrop-blur-sm flex items-start gap-3">
+          <div className="p-2 rounded-xl bg-emerald-100 text-emerald-700 mt-0.5">
             <ImageIcon className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white uppercase font-mono">Dual Formats</h4>
-            <p className="text-xs text-slate-400 mt-0.5">Generate 1:1 PFP Frame or 4:5 Builder ID Card.</p>
+            <h4 className="text-xs font-bold text-slate-900 uppercase font-mono">Dual Formats</h4>
+            <p className="text-xs text-slate-600 mt-0.5 font-medium">Generate 1:1 PFP Frame or 4:5 Builder ID Card.</p>
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm flex items-start gap-3">
-          <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400 mt-0.5">
+        <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 shadow-sm backdrop-blur-sm flex items-start gap-3">
+          <div className="p-2 rounded-xl bg-purple-100 text-purple-700 mt-0.5">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white uppercase font-mono">X Social Ready</h4>
-            <p className="text-xs text-slate-400 mt-0.5">Download PNG and share to X with #FrameInGoa.</p>
+            <h4 className="text-xs font-bold text-slate-900 uppercase font-mono">X Social Export</h4>
+            <p className="text-xs text-slate-600 mt-0.5 font-medium">Download PNG and share to X with #FrameInGoa.</p>
           </div>
         </div>
       </motion.div>

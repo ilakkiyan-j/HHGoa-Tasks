@@ -38,7 +38,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#00F0FF', '#00FF87', '#FFD700', '#FF007A'],
+        colors: ['#06B6D4', '#10B981', '#3B82F6', '#EC4899'],
       });
     } catch (e) {
       console.error(e);
@@ -69,9 +69,8 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
             title: 'HH Goa 2026 Profile Badge',
             text: DEFAULT_CAPTION,
           });
-          return; // Successfully shared via native modal!
+          return;
         } catch (shareErr) {
-          // If user closes native modal or throws abort error, fallback to web workflow
           console.warn('Native share cancelled or failed, using desktop fallback', shareErr);
         }
       }
@@ -94,7 +93,6 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
       setShowShareModal(true);
     } catch (err) {
       console.error('Error during X sharing flow:', err);
-      // Safety fallback
       downloadImage(resultDataUrl, filename);
       window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank');
       setShowShareModal(true);
@@ -115,9 +113,9 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-xs font-mono mb-4"
+        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-mono font-bold mb-4 shadow-sm"
       >
-        <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+        <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
         <span>GENERATION COMPLETE</span>
       </motion.div>
 
@@ -125,7 +123,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight"
+        className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight font-display"
       >
         YOU&apos;RE FRAMED.
       </motion.h1>
@@ -133,7 +131,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mt-2 text-slate-300 text-sm sm:text-base font-sans"
+        className="mt-2 text-slate-600 text-sm sm:text-base font-sans font-medium"
       >
         Your HH Goa 2026 identity is ready for social media.
       </motion.p>
@@ -143,9 +141,9 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-8 relative max-w-lg mx-auto p-3 sm:p-4 rounded-3xl bg-slate-900/90 border border-cyan-500/40 shadow-2xl shadow-cyan-500/10 backdrop-blur-xl group"
+        className="mt-8 relative max-w-lg mx-auto p-3 sm:p-4 rounded-3xl bg-white/95 border border-cyan-300 shadow-2xl shadow-slate-200/80 backdrop-blur-xl group"
       >
-        <div className="relative rounded-2xl overflow-hidden bg-slate-950 shadow-inner">
+        <div className="relative rounded-2xl overflow-hidden bg-slate-900 shadow-inner">
           {/* eslint-disable-next-html-element-suppress */}
           <img
             src={resultDataUrl}
@@ -165,18 +163,18 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         {/* Download PNG */}
         <button
           onClick={handleDownload}
-          className="w-full sm:w-1/2 py-4 px-6 rounded-2xl bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 text-slate-950 font-extrabold text-base tracking-wide hover:shadow-xl hover:shadow-cyan-400/30 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2"
+          className="w-full sm:w-1/2 py-4 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 text-white font-extrabold text-base tracking-wide shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/35 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2"
         >
-          <Download className="w-5 h-5" />
+          <Download className="w-5 h-5 text-white" />
           <span>Download PNG</span>
         </button>
 
         {/* Share to X */}
         <button
           onClick={handleShareToX}
-          className="w-full sm:w-1/2 py-4 px-6 rounded-2xl bg-slate-900 border border-slate-700 hover:border-cyan-400 text-white font-extrabold text-base hover:bg-slate-800 transition flex items-center justify-center gap-2 group shadow-lg"
+          className="w-full sm:w-1/2 py-4 px-6 rounded-2xl bg-white border border-slate-300 hover:border-cyan-500 text-slate-900 font-extrabold text-base hover:bg-cyan-50/50 transition flex items-center justify-center gap-2 group shadow-md"
         >
-          <Share2 className="w-5 h-5 text-cyan-400 group-hover:scale-110 transition" />
+          <Share2 className="w-5 h-5 text-cyan-600 group-hover:scale-110 transition" />
           <span>Share to X</span>
         </button>
       </motion.div>
@@ -185,7 +183,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
       <div className="mt-6">
         <button
           onClick={onReset}
-          className="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-cyan-400 transition"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-500 hover:text-cyan-700 transition"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Create Another Frame</span>
@@ -194,56 +192,56 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
 
       {/* Helper Modal explaining image attachment */}
       {showShareModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="w-full max-w-md p-6 rounded-3xl bg-slate-900 border border-cyan-500/30 shadow-2xl text-left space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
+          <div className="w-full max-w-md p-6 rounded-3xl bg-white border border-cyan-200 shadow-2xl text-left space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-emerald-400" />
+              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2 font-display">
+                <CheckCircle className="w-5 h-5 text-emerald-600" />
                 <span>Sharing Generated Banner to X</span>
               </h3>
               <button
                 onClick={() => setShowShareModal(false)}
-                className="text-slate-400 hover:text-white font-mono text-xs"
+                className="text-slate-400 hover:text-slate-900 font-mono text-xs font-bold"
               >
                 ✕ Close
               </button>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 leading-relaxed font-mono flex items-start gap-2.5">
-              <Info className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-2xl bg-cyan-50 border border-cyan-200 text-xs text-cyan-900 leading-relaxed font-mono flex items-start gap-2.5">
+              <Info className="w-4 h-4 text-cyan-600 flex-shrink-0 mt-0.5" />
               <div>
                 {imageInClipboard ? (
                   <>
-                    <strong className="text-emerald-300">✓ Banner Copied to Clipboard!</strong><br />
-                    Press <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-mono font-bold">Ctrl + V</span> (or <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-mono font-bold">Cmd + V</span>) in the X tweet window to attach the banner image directly!
+                    <strong className="text-emerald-800">✓ Banner Copied to Clipboard!</strong><br />
+                    Press <span className="px-1.5 py-0.5 rounded bg-cyan-200 text-cyan-900 font-mono font-bold">Ctrl + V</span> (or <span className="px-1.5 py-0.5 rounded bg-cyan-200 text-cyan-900 font-mono font-bold">Cmd + V</span>) in the X tweet window to attach the banner image directly!
                   </>
                 ) : (
                   <>
-                    <strong className="text-cyan-300">✓ Banner Image Downloaded!</strong><br />
+                    <strong className="text-cyan-900">✓ Banner Image Downloaded!</strong><br />
                     Your generated banner PNG has been saved to your downloads. Simply attach it using the media icon in X.
                   </>
                 )}
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
               {/* eslint-disable-next-html-element-suppress */}
               <img
                 src={resultDataUrl}
                 alt="Banner preview"
-                className="w-16 h-16 object-cover rounded-lg border border-slate-700 flex-shrink-0"
+                className="w-16 h-16 object-cover rounded-lg border border-slate-300 flex-shrink-0"
               />
               <div>
-                <span className="text-xs font-mono font-bold text-slate-200 block truncate">{filename}</span>
-                <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1 mt-0.5">
-                  <ImageIcon className="w-3 h-3" /> Image Banner Attached
+                <span className="text-xs font-mono font-bold text-slate-800 block truncate">{filename}</span>
+                <span className="text-[11px] text-emerald-700 font-mono font-bold flex items-center gap-1 mt-0.5">
+                  <ImageIcon className="w-3 h-3 text-emerald-600" /> Image Banner Attached
                 </span>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-slate-400 mb-1">Pre-filled Tweet Caption</label>
-              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 font-mono whitespace-pre-line relative">
+              <label className="block text-xs font-mono font-bold text-slate-600 mb-1">Pre-filled Tweet Caption</label>
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-mono whitespace-pre-line relative">
                 {DEFAULT_CAPTION}
               </div>
             </div>
@@ -251,15 +249,15 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={handleCopyCaptionOnly}
-                className="flex-1 py-2.5 px-4 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono font-semibold flex items-center justify-center gap-2 hover:bg-slate-700 transition"
+                className="flex-1 py-2.5 px-4 rounded-xl bg-slate-100 border border-slate-300 text-slate-800 text-xs font-mono font-bold flex items-center justify-center gap-2 hover:bg-slate-200 transition"
               >
-                <Copy className="w-4 h-4 text-cyan-400" />
+                <Copy className="w-4 h-4 text-cyan-600" />
                 <span>{copiedCaption ? 'Copied!' : 'Copy Caption'}</span>
               </button>
 
               <button
                 onClick={() => window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank')}
-                className="flex-1 py-2.5 px-4 rounded-xl bg-cyan-400 text-slate-950 text-xs font-mono font-extrabold flex items-center justify-center gap-2 hover:bg-cyan-300 transition"
+                className="flex-1 py-2.5 px-4 rounded-xl bg-cyan-600 text-white text-xs font-mono font-extrabold flex items-center justify-center gap-2 hover:bg-cyan-700 transition shadow-md"
               >
                 <span>Open X Compose</span>
                 <ExternalLink className="w-4 h-4" />
