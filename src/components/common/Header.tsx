@@ -1,18 +1,23 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, MapPin, Calendar } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Sparkles, MapPin, Calendar, LayoutGrid, Image as ImageIcon } from 'lucide-react';
 
 interface HeaderProps {
   onReset?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onReset }) => {
+  const pathname = usePathname();
+
   return (
     <header className="w-full border-b border-cyan-500/20 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo & Title */}
-        <button
+        <Link
+          href="/"
           onClick={onReset}
           className="flex items-center gap-3 group text-left transition hover:opacity-90 focus:outline-none"
         >
@@ -27,18 +32,45 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
                 HH GOA 2026
               </span>
               <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 uppercase tracking-widest hidden sm:inline-block">
-                Frame In Goa
+                Tasks Hub
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-mono tracking-wider">
               BUILD • SHIP • SHARE
             </p>
           </div>
-        </button>
+        </Link>
+
+        {/* Navigation Tabs */}
+        <nav className="flex items-center gap-1 sm:gap-2">
+          <Link
+            href="/"
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition flex items-center gap-1.5 ${
+              pathname === '/'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>Tasks Hub</span>
+          </Link>
+
+          <Link
+            href="/task-1"
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition flex items-center gap-1.5 ${
+              pathname === '/task-1'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <ImageIcon className="w-3.5 h-3.5" />
+            <span>Task 1: Badge Builder</span>
+          </Link>
+        </nav>
 
         {/* Location & Event Badge */}
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-4 text-xs font-mono text-slate-300 bg-slate-900/60 border border-slate-800 rounded-full px-4 py-1.5">
+        <div className="hidden lg:flex items-center gap-3">
+          <div className="flex items-center gap-4 text-xs font-mono text-slate-300 bg-slate-900/60 border border-slate-800 rounded-full px-4 py-1.5">
             <span className="flex items-center gap-1.5 text-cyan-400">
               <MapPin className="w-3.5 h-3.5" /> GOA, INDIA
             </span>
@@ -46,14 +78,6 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
             <span className="flex items-center gap-1.5 text-emerald-400">
               <Calendar className="w-3.5 h-3.5" /> OCT 2026
             </span>
-          </div>
-
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span>Live Generator</span>
           </div>
         </div>
       </div>
