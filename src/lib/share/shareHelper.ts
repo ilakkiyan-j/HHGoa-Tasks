@@ -28,6 +28,36 @@ export function downloadImage(dataUrl: string, filename: string): void {
 }
 
 /**
+ * Convert Base64/DataURL to a File object
+ */
+export async function dataUrlToFile(dataUrl: string, filename: string): Promise<File> {
+  const res = await fetch(dataUrl);
+  const blob = await res.blob();
+  return new File([blob], filename, { type: 'image/png' });
+}
+
+/**
+ * Copy image PNG blob directly to clipboard so user can press Ctrl+V / Cmd+V
+ */
+export async function copyImageToClipboard(dataUrl: string): Promise<boolean> {
+  try {
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    if (typeof window !== 'undefined' && navigator.clipboard && navigator.clipboard.write) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type || 'image/png']: blob,
+        }),
+      ]);
+      return true;
+    }
+  } catch (err) {
+    console.warn('Clipboard image copy not supported or permitted', err);
+  }
+  return false;
+}
+
+/**
  * Clean username string for file name creation
  */
 export function sanitizeFilename(name: string): string {

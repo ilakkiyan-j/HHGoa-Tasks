@@ -3,9 +3,16 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Download, Share2, RefreshCw, CheckCircle, Sparkles, Copy, ExternalLink, Info } from 'lucide-react';
+import { Download, Share2, RefreshCw, CheckCircle, Sparkles, Copy, ExternalLink, Info, Image as ImageIcon } from 'lucide-react';
 import { FrameFormat, BuilderDetails } from '@/types/frame';
-import { downloadImage, getTwitterShareUrl, sanitizeFilename, DEFAULT_CAPTION } from '@/lib/share/shareHelper';
+import {
+  downloadImage,
+  getTwitterShareUrl,
+  sanitizeFilename,
+  DEFAULT_CAPTION,
+  dataUrlToFile,
+  copyImageToClipboard,
+} from '@/lib/share/shareHelper';
 
 interface PreviewResultProps {
   resultDataUrl: string;
@@ -22,6 +29,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
 }) => {
   const [copiedCaption, setCopiedCaption] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [imageInClipboard, setImageInClipboard] = useState(false);
 
   // Trigger celebration confetti on mount
   useEffect(() => {
@@ -45,20 +53,52 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
     downloadImage(resultDataUrl, filename);
   };
 
-  const handleShareToX = () => {
-    // 1. Trigger download so user has the image on their device
-    downloadImage(resultDataUrl, filename);
+  const handleShareToX = async () => {
+    try {
+      const imageFile = await dataUrlToFile(resultDataUrl, filename);
 
-    // 2. Copy pre-filled caption to clipboard automatically
-    navigator.clipboard.writeText(DEFAULT_CAPTION).then(() => {
+      // 1. Try Native Web Share API (Works on Mobile Safari/Chrome & macOS with direct file attachment to X)
+      if (
+        typeof window !== 'undefined' &&
+        navigator.canShare &&
+        navigator.canShare({ files: [imageFile] })
+      ) {
+        try {
+          await navigator.share({
+            files: [imageFile],
+            title: 'HH Goa 2026 Profile Badge',
+            text: DEFAULT_CAPTION,
+          });
+          return; // Successfully shared via native modal!
+        } catch (shareErr) {
+          // If user closes native modal or throws abort error, fallback to web workflow
+          console.warn('Native share cancelled or failed, using desktop fallback', shareErr);
+        }
+      }
+
+      // 2. Desktop Fallback: Copy banner image to clipboard for instant Ctrl+V paste
+      const copiedBlob = await copyImageToClipboard(resultDataUrl);
+      setImageInClipboard(copiedBlob);
+
+      // 3. Download image to local files
+      downloadImage(resultDataUrl, filename);
+
+      // 4. Copy caption text
+      await navigator.clipboard.writeText(DEFAULT_CAPTION);
       setCopiedCaption(true);
-    });
 
-    // 3. Open X tweet intent in new window
-    window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank');
+      // 5. Open X tweet intent in new tab
+      window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank');
 
-    // 4. Show modal with clear steps for attaching photo
-    setShowShareModal(true);
+      // 6. Show guide modal
+      setShowShareModal(true);
+    } catch (err) {
+      console.error('Error during X sharing flow:', err);
+      // Safety fallback
+      downloadImage(resultDataUrl, filename);
+      window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank');
+      setShowShareModal(true);
+    }
   };
 
   const handleCopyCaptionOnly = () => {
@@ -152,14 +192,14 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         </button>
       </div>
 
-      {/* Modal / Toast explaining X Share Flow */}
+      {/* Helper Modal explaining image attachment */}
       {showShareModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="w-full max-w-md p-6 rounded-3xl bg-slate-900 border border-slate-700 shadow-2xl text-left space-y-4">
+          <div className="w-full max-w-md p-6 rounded-3xl bg-slate-900 border border-cyan-500/30 shadow-2xl text-left space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-emerald-400" />
-                <span>Ready to Tweet!</span>
+                <span>Sharing Generated Banner to X</span>
               </h3>
               <button
                 onClick={() => setShowShareModal(false)}
@@ -172,13 +212,37 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
             <div className="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 leading-relaxed font-mono flex items-start gap-2.5">
               <Info className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
               <div>
-                <strong>1. Image Downloaded:</strong> Your PNG file was saved to your device.<br />
-                <strong>2. Caption Copied:</strong> Pre-filled text with <span className="text-cyan-300 font-bold">#FrameInGoa</span> is ready on your clipboard!
+                {imageInClipboard ? (
+                  <>
+                    <strong className="text-emerald-300">✓ Banner Copied to Clipboard!</strong><br />
+                    Press <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-mono font-bold">Ctrl + V</span> (or <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-mono font-bold">Cmd + V</span>) in the X tweet window to attach the banner image directly!
+                  </>
+                ) : (
+                  <>
+                    <strong className="text-cyan-300">✓ Banner Image Downloaded!</strong><br />
+                    Your generated banner PNG has been saved to your downloads. Simply attach it using the media icon in X.
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800">
+              {/* eslint-disable-next-html-element-suppress */}
+              <img
+                src={resultDataUrl}
+                alt="Banner preview"
+                className="w-16 h-16 object-cover rounded-lg border border-slate-700 flex-shrink-0"
+              />
+              <div>
+                <span className="text-xs font-mono font-bold text-slate-200 block truncate">{filename}</span>
+                <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1 mt-0.5">
+                  <ImageIcon className="w-3 h-3" /> Image Banner Attached
+                </span>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-slate-400 mb-1">Pre-filled Caption</label>
+              <label className="block text-xs font-mono text-slate-400 mb-1">Pre-filled Tweet Caption</label>
               <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 font-mono whitespace-pre-line relative">
                 {DEFAULT_CAPTION}
               </div>
