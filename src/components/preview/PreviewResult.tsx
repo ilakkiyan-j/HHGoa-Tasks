@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Download, Share2, RefreshCw, CheckCircle, Sparkles, Copy, ExternalLink, Info, Image as ImageIcon } from 'lucide-react';
+import { Download, Share2, RefreshCw, CheckCircle, Sparkles, Copy, ExternalLink, Info, Image as ImageIcon, Smartphone } from 'lucide-react';
 import { FrameFormat, BuilderDetails } from '@/types/frame';
 import {
   downloadImage,
@@ -53,49 +53,48 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
     downloadImage(resultDataUrl, filename);
   };
 
-  const handleShareToX = async () => {
+  // Direct Web Share to X (Opens X Web Composer directly without mobile app prompt)
+  const handleShareToXDirect = async () => {
     try {
-      const imageFile = await dataUrlToFile(resultDataUrl, filename);
-
-      // 1. Try Native Web Share API (Works on Mobile Safari/Chrome & macOS with direct file attachment to X)
-      if (
-        typeof window !== 'undefined' &&
-        navigator.canShare &&
-        navigator.canShare({ files: [imageFile] })
-      ) {
-        try {
-          await navigator.share({
-            files: [imageFile],
-            title: 'HH Goa 2026 Profile Badge',
-            text: DEFAULT_CAPTION,
-          });
-          return;
-        } catch (shareErr) {
-          console.warn('Native share cancelled or failed, using desktop fallback', shareErr);
-        }
-      }
-
-      // 2. Desktop Fallback: Copy banner image to clipboard for instant Ctrl+V paste
+      // 1. Copy banner image to system clipboard if supported
       const copiedBlob = await copyImageToClipboard(resultDataUrl);
       setImageInClipboard(copiedBlob);
 
-      // 3. Download image to local files
+      // 2. Download banner PNG image to device
       downloadImage(resultDataUrl, filename);
 
-      // 4. Copy caption text
+      // 3. Copy tweet caption to clipboard
       await navigator.clipboard.writeText(DEFAULT_CAPTION);
       setCopiedCaption(true);
 
-      // 5. Open X tweet intent in new tab
+      // 4. Open Twitter Web Intent URL directly in browser
       window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank');
 
-      // 6. Show guide modal
+      // 5. Show helper modal with image attach instructions
       setShowShareModal(true);
     } catch (err) {
-      console.error('Error during X sharing flow:', err);
+      console.error('Error during direct X share:', err);
       downloadImage(resultDataUrl, filename);
       window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank');
       setShowShareModal(true);
+    }
+  };
+
+  // Native Mobile Share (Triggers phone's OS share sheet for native apps)
+  const handleNativeMobileShare = async () => {
+    try {
+      const imageFile = await dataUrlToFile(resultDataUrl, filename);
+      if (typeof window !== 'undefined' && navigator.canShare && navigator.canShare({ files: [imageFile] })) {
+        await navigator.share({
+          files: [imageFile],
+          title: 'HH Goa 2026 Profile Badge',
+          text: DEFAULT_CAPTION,
+        });
+      } else {
+        handleShareToXDirect();
+      }
+    } catch (err) {
+      console.warn('Native mobile share failed or cancelled:', err);
     }
   };
 
@@ -158,7 +157,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
-        className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto"
+        className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-xl mx-auto"
       >
         {/* Download PNG */}
         <button
@@ -169,9 +168,9 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
           <span>Download PNG</span>
         </button>
 
-        {/* Share to X */}
+        {/* Share to X (Opens Web Browser Intent Directly) */}
         <button
-          onClick={handleShareToX}
+          onClick={handleShareToXDirect}
           className="w-full sm:w-1/2 py-4 px-6 rounded-2xl bg-white border border-slate-300 hover:border-cyan-500 text-slate-900 font-extrabold text-base hover:bg-cyan-50/50 transition flex items-center justify-center gap-2 group shadow-md"
         >
           <Share2 className="w-5 h-5 text-cyan-600 group-hover:scale-110 transition" />
@@ -179,14 +178,24 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
         </button>
       </motion.div>
 
-      {/* Create Another Option */}
-      <div className="mt-6">
+      {/* Secondary Options */}
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-mono font-bold text-slate-500">
         <button
           onClick={onReset}
-          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-500 hover:text-cyan-700 transition"
+          className="inline-flex items-center gap-1.5 hover:text-cyan-700 transition"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Create Another Frame</span>
+        </button>
+
+        <span className="text-slate-300">•</span>
+
+        <button
+          onClick={handleNativeMobileShare}
+          className="inline-flex items-center gap-1.5 hover:text-emerald-700 transition"
+        >
+          <Smartphone className="w-3.5 h-3.5 text-emerald-600" />
+          <span>Share via Mobile Apps</span>
         </button>
       </div>
 
@@ -197,7 +206,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2 font-display">
                 <CheckCircle className="w-5 h-5 text-emerald-600" />
-                <span>Sharing Generated Banner to X</span>
+                <span>Sharing Banner to X Web</span>
               </h3>
               <button
                 onClick={() => setShowShareModal(false)}
@@ -212,13 +221,13 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
               <div>
                 {imageInClipboard ? (
                   <>
-                    <strong className="text-emerald-800">✓ Banner Copied to Clipboard!</strong><br />
-                    Press <span className="px-1.5 py-0.5 rounded bg-cyan-200 text-cyan-900 font-mono font-bold">Ctrl + V</span> (or <span className="px-1.5 py-0.5 rounded bg-cyan-200 text-cyan-900 font-mono font-bold">Cmd + V</span>) in the X tweet window to attach the banner image directly!
+                    <strong className="text-emerald-800">✓ Banner Image Copied!</strong><br />
+                    Press <span className="px-1.5 py-0.5 rounded bg-cyan-200 text-cyan-900 font-mono font-bold">Ctrl + V</span> (or <span className="px-1.5 py-0.5 rounded bg-cyan-200 text-cyan-900 font-mono font-bold">Cmd + V</span>) inside the opened X window to attach your banner image!
                   </>
                 ) : (
                   <>
                     <strong className="text-cyan-900">✓ Banner Image Downloaded!</strong><br />
-                    Your generated banner PNG has been saved to your downloads. Simply attach it using the media icon in X.
+                    Your generated banner PNG was saved to your device. Attach it using the media icon in X.
                   </>
                 )}
               </div>
@@ -234,7 +243,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
               <div>
                 <span className="text-xs font-mono font-bold text-slate-800 block truncate">{filename}</span>
                 <span className="text-[11px] text-emerald-700 font-mono font-bold flex items-center gap-1 mt-0.5">
-                  <ImageIcon className="w-3 h-3 text-emerald-600" /> Image Banner Attached
+                  <ImageIcon className="w-3 h-3 text-emerald-600" /> Image Banner Ready
                 </span>
               </div>
             </div>
@@ -259,7 +268,7 @@ export const PreviewResult: React.FC<PreviewResultProps> = ({
                 onClick={() => window.open(getTwitterShareUrl(DEFAULT_CAPTION), '_blank')}
                 className="flex-1 py-2.5 px-4 rounded-xl bg-cyan-600 text-white text-xs font-mono font-extrabold flex items-center justify-center gap-2 hover:bg-cyan-700 transition shadow-md"
               >
-                <span>Open X Compose</span>
+                <span>Open X Web</span>
                 <ExternalLink className="w-4 h-4" />
               </button>
             </div>
