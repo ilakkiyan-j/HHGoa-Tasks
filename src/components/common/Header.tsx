@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
                 HH GOA 2026
               </span>
               <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-100 border border-cyan-300 text-cyan-800 uppercase tracking-widest hidden sm:inline-block">
-                Task 1
+                Badge Builder
               </span>
             </div>
             <p className="text-[10px] sm:text-[11px] text-slate-500 font-mono tracking-wider font-semibold">

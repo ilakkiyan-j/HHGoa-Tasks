@@ -1,4 +1,4 @@
-# 🌴 Hacker House Goa 2026 — Task 1: Profile Frame & Badge Generator
+# 🌴 Hacker House Goa 2026 — Profile Frame & Badge Generator
 
 Official interactive web app built for **Hacker House Goa 2026** builders. Customize, frame, and export high-resolution social profile avatars (PFP Frame) and event-style builder ID cards directly in your browser.
 
@@ -73,8 +73,7 @@ HHGoa-Tasks/
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx         # Root layout with fonts & SEO Metadata
-│   │   ├── page.tsx           # Main Task 1 Badge Generator Application
-│   │   ├── task-1/page.tsx    # Task 1 Route
+│   │   ├── page.tsx           # Main Badge Generator Application
 │   │   └── globals.css        # Global CSS & Tailwind utilities
 │   ├── components/
 │   │   ├── common/            # Header & Footer navigation components
