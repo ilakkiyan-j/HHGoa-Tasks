@@ -2,15 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Sparkles, MapPin, Calendar, LayoutGrid, Image as ImageIcon } from 'lucide-react';
+import { Sparkles, MapPin, Calendar } from 'lucide-react';
 
 interface HeaderProps {
   onReset?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onReset }) => {
-  const pathname = usePathname();
 
   return (
     <header className="w-full border-b border-cyan-200/60 bg-white/85 backdrop-blur-xl sticky top-0 z-50 shadow-sm shadow-slate-200/50">
@@ -41,34 +39,19 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
           </div>
         </Link>
 
-        {/* Navigation Tabs (Mobile Responsive) */}
-        <nav className="flex items-center gap-1 sm:gap-2">
-          <Link
-            href="/"
-            className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition flex items-center gap-1.5 ${
-              pathname === '/'
-                ? 'bg-cyan-500/10 text-cyan-700 border border-cyan-300 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
+        {/* Right Action Links */}
+        <div className="flex items-center gap-3">
+          <a
+            href="https://github.com/ilakkiyan-j/HHGoa-Tasks"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 border border-slate-200 transition flex items-center gap-1.5 shadow-sm"
           >
-            <LayoutGrid className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Tasks Hub</span>
-            <span className="sm:hidden">Hub</span>
-          </Link>
-
-          <Link
-            href="/task-1"
-            className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition flex items-center gap-1.5 ${
-              pathname === '/task-1'
-                ? 'bg-cyan-500/10 text-cyan-700 border border-cyan-300 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            <ImageIcon className="w-3.5 h-3.5 text-cyan-600" />
-            <span className="hidden sm:inline">Task 1: Badge Builder</span>
-            <span className="sm:hidden">Task 1</span>
-          </Link>
-        </nav>
+            <Sparkles className="w-3.5 h-3.5 text-cyan-600" />
+            <span className="hidden sm:inline">Source Code</span>
+            <span className="sm:hidden">GitHub</span>
+          </a>
+        </div>
 
         {/* Location & Event Badge */}
         <div className="hidden lg:flex items-center gap-3">
