@@ -3,7 +3,7 @@
 Official interactive web app built for **Hacker House Goa 2026** builders. Customize, frame, and export high-resolution social profile avatars (PFP Frame) and event-style builder ID cards directly in your browser.
 
 🌐 **Live Application**: [https://hh-goa-tasks.vercel.app/](https://hh-goa-tasks.vercel.app/)  
-📦 **GitHub Repository**: [https://github.com/ilakkiyan-j/HHGoa-Tasks](https://github.com/ilakkiyan-j/HHGoa-Tasks)
+📦 **GitHub Repository**: [https://github.com/HHGoa-26/HHGoa-26-Task-01](https://github.com/HHGoa-26/HHGoa-26-Task-01)
 
 ---
 
@@ -48,8 +48,8 @@ Follow these steps to run the application locally:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/ilakkiyan-j/HHGoa-Tasks.git
-cd HHGoa-Tasks
+git clone https://github.com/HHGoa-26/HHGoa-26-Task-01.git
+cd HHGoa-26-Task-01
 ```
 
 ### 2. Install dependencies

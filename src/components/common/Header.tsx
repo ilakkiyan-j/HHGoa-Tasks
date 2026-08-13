@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ onReset }) => {
         {/* Right Action Links */}
         <div className="flex items-center gap-3">
           <a
-            href="https://github.com/ilakkiyan-j/HHGoa-Tasks"
+            href="https://github.com/HHGoa-26/HHGoa-26-Task-01"
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 border border-slate-200 transition flex items-center gap-1.5 shadow-sm"
